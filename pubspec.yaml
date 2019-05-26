@@ -7,7 +7,7 @@ description: Provdes a Range class, a contiguous set of values, and a ZRange cla
 homepage: https://github.com/gyrdym/xrange
 
 environment:
-  sdk: '>=2.2.0 <3.0.0'
+  sdk: '>=2.3.0 <3.0.0'
 
 dev_dependencies:
   test: ^1.2.0

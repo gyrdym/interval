@@ -408,6 +408,19 @@ void main() {
       expect(it.hashCode, Range<num>.closed(0, 1).hashCode);
     });
 
+    test('hashCode should provide possibility to use ZRange instance as a key '
+        'for Map', () {
+      final map = <Range<num>, List<int>>{
+        Range<num>.closed(0, 4): [1, 2, 3, 4],
+        Range<num>.open(-1, 5): [1, 2, 3, 4, 5],
+        Range<num>.closedOpen(-10, 50): [100, 1, 2, 3, 4, 5],
+      };
+
+      expect(map[Range<num>.closed(0, 4)], equals([1,2,3,4]));
+      expect(map[Range<num>.open(-1, 5)], equals([1,2,3,4,5]));
+      expect(map[Range<num>.closedOpen(-10, 50)], equals([100, 1, 2, 3, 4, 5]));
+    });
+
     test('toString should depict the interval', () {
       expect(Range<num>.closedOpen(0, 1).toString(), '[0..1)');
       expect(Range<num>.openClosed(0, 1).toString(), '(0..1]');
