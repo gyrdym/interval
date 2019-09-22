@@ -1,4 +1,4 @@
-import 'package:xrange/src/range/range.dart';
+import 'package:ranges/src/range/range.dart';
 
 class NumRange extends Range<num> {
   NumRange({num lower, num upper, bool lowerClosed, bool upperClosed}) :

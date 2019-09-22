@@ -1,1 +1,1 @@
-export 'package:xrange/src/generators/integers.dart';
+export 'package:ranges/src/generators/integers.dart';

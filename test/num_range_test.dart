@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:xrange/src/num_range/num_range.dart';
+import 'package:ranges/src/num_range/num_range.dart';
 
 void main() {
   group('NumRange.closed', () {

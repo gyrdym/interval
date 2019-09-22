@@ -1,5 +1,5 @@
-import 'package:xrange/src/injector.dart';
-import 'package:xrange/src/num_range/num_range_factory.dart';
+import 'package:ranges/src/injector.dart';
+import 'package:ranges/src/num_range/num_range_factory.dart';
 
 Iterable<int> integers(int lower, int upper, {
   int step = 1,

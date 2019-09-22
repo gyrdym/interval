@@ -1,5 +1,5 @@
-import 'package:xrange/src/num_range/num_range.dart';
-import 'package:xrange/src/num_range/num_range_factory.dart';
+import 'package:ranges/src/num_range/num_range.dart';
+import 'package:ranges/src/num_range/num_range_factory.dart';
 
 class NumRangeFactoryImpl implements NumRangeFactory {
   const NumRangeFactoryImpl();

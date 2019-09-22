@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/gyrdym/xrange.svg?branch=master)](https://travis-ci.com/gyrdym/xrange)
 [![Coverage Status](https://coveralls.io/repos/github/gyrdym/xrange/badge.svg?branch=master)](https://coveralls.io/github/gyrdym/xrange?branch=master)
-[![pub package](https://img.shields.io/pub/v/xrange.svg)](https://pub.dartlang.org/packages/xrange)
+[![pub package](https://img.shields.io/pub/v/ranges.svg)](https://pub.dartlang.org/packages/ranges)
 [![Gitter Chat](https://badges.gitter.im/gyrdym/gyrdym.svg)](https://gitter.im/gyrdym/)
 
 This is a fork of [Interval library](https://github.com/seaneagan/interval)
@@ -21,7 +21,7 @@ from a specific closed diapason.
 ### Range
 
 ```dart
-import 'package:xrange/range.dart';
+import 'package:ranges/range.dart';
 
 void main() {
   final date1 = DateTime(2015);
@@ -39,7 +39,7 @@ void main() {
 ### NumRange
 
 ```dart
-import 'package:xrange/num_range.dart';
+import 'package:ranges/num_range.dart';
 
 void main() {
   final range = NumRange.closed(-10, 10);
@@ -55,7 +55,7 @@ Pay attention to `values` method - it is a generator function, so use all the be
 ### integers
 
 ````dart
-import 'package:xrange/integers.dart';
+import 'package:ranges/integers.dart';
 
 void main() {
   for (final value in integers(-10, 10)) {

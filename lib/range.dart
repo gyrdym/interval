@@ -1,1 +1,1 @@
-export 'package:xrange/src/range/range.dart';
+export 'package:ranges/src/range/range.dart';

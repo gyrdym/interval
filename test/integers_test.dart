@@ -1,9 +1,9 @@
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
-import 'package:xrange/src/generators/integers.dart';
-import 'package:xrange/src/injector.dart';
-import 'package:xrange/src/num_range/num_range_factory.dart';
-import 'package:xrange/xrange.dart';
+import 'package:ranges/src/generators/integers.dart';
+import 'package:ranges/src/injector.dart';
+import 'package:ranges/src/num_range/num_range_factory.dart';
+import 'package:ranges/ranges.dart';
 
 class NumRangeFactoryMock extends Mock implements NumRangeFactory {}
 
