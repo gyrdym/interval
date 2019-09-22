@@ -5,7 +5,7 @@
 
 This is a fork of [Interval library](https://github.com/seaneagan/interval)
 
-## XRange lib
+## Ranges lib
 
 Provides the `Range` class, a contiguous set of values, and the `NumRange` class, that along with functionality of 
 `Range` class can also generate values of arithmetic progression in a specific diapason.
