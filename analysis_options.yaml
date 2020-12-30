@@ -1,1 +1,10 @@
-include: package:ml_tech/analysis_options.yaml
+include: package:pedantic/analysis_options.yaml
+
+analyzer:
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
+  errors:
+    missing_return: error
+    dead_code: error
+    duplicate_import: error

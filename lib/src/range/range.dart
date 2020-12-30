@@ -282,8 +282,8 @@ class Range<T extends Comparable<T>> {
 
   @override
   String toString() {
-    final open = '${lowerClosed ? '[' : '('}${lower == null ? '-∞' : lower}';
-    final close = '${upper == null ? '+∞' : upper}${upperClosed ? ']' : ')'}';
+    final open = '${lowerClosed ? '[' : '('}${lower ?? '-∞'}';
+    final close = '${upper ?? '+∞'}${upperClosed ? ']' : ')'}';
     return '$open..$close';
   }
 

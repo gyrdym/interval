@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/gyrdym/xrange.svg?branch=master)](https://travis-ci.com/gyrdym/xrange)
+[![Build Status](https://github.com/gyrdym/xrange/workflows/CI%20pipeline/badge.svg)](https://github.com/gyrdym/xrange/actions?query=branch%3Amaster+)
 [![Coverage Status](https://coveralls.io/repos/github/gyrdym/xrange/badge.svg?branch=master)](https://coveralls.io/github/gyrdym/xrange?branch=master)
 [![pub package](https://img.shields.io/pub/v/xrange.svg)](https://pub.dartlang.org/packages/xrange)
 [![Gitter Chat](https://badges.gitter.im/gyrdym/gyrdym.svg)](https://gitter.im/gyrdym/)
@@ -21,11 +21,11 @@ from a specific closed diapason.
 ### Range
 
 ```dart
-import 'package:xrange/range.dart';
+import 'package:xrange/xrange.dart';
 
 void main() {
   final date1 = DateTime(2015);
-  final date2 = DateTime(2021);
+  final date2 = DateTime(2221);
   final dates = Range<DateTime>.closed(date1, date2);
 
   if (dates.contains(DateTime.now())) {
@@ -39,7 +39,7 @@ void main() {
 ### NumRange
 
 ```dart
-import 'package:xrange/num_range.dart';
+import 'package:xrange/xrange.dart';
 
 void main() {
   final range = NumRange.closed(-10, 10);
@@ -55,7 +55,7 @@ Pay attention to `values` method - it is a generator function, so use all the be
 ### integers
 
 ````dart
-import 'package:xrange/integers.dart';
+import 'package:xrange/xrange.dart';
 
 void main() {
   for (final value in integers(-10, 10)) {
