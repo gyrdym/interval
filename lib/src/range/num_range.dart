@@ -47,7 +47,7 @@ class NumRange extends Range<num> {
       throw Exception('There is no bound, '
           '${lower == null ? '`lower`' : '`upper`'} is not defined');
     }
-    for (int val = firstValue; val <= lastValue; val += step) {
+    for (var val = firstValue; val <= lastValue; val += step) {
       yield val;
     }
   }
