@@ -23,13 +23,6 @@ void main() {
         expect(() => Range<num>.open(0, 0), throwsArgumentError);
       });
 
-      test('should throw on null when corresponding bound is closed', () {
-        expect(() => Range<num>.closed(null, 0), throwsArgumentError);
-        expect(() => Range<num>.closed(0, null), throwsArgumentError);
-        expect(() => Range<num>.openClosed(0, null), throwsArgumentError);
-        expect(() => Range<num>.closedOpen(null, 0), throwsArgumentError);
-      });
-
       group('span', () {
         test('should contain all values if iterable is empty', () {
           final interval = Range<num>.span([]);

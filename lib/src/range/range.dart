@@ -24,27 +24,27 @@ class Range<T extends Comparable<T>> {
   }
 
   /// `[`[lower]`..`[upper]`]`
-  Range.closed(this.lower, this.upper)
-      : lowerClosed = true,
+  Range.closed(T l, T u)
+      : lower = l,
+        upper = u,
+        lowerClosed = true,
         upperClosed = true {
-    if (lower == null) throw ArgumentError('lower cannot be null');
-    if (upper == null) throw ArgumentError('upper cannot be null');
     _checkBoundOrder();
   }
 
   /// `(`[lower]`..`[upper]`]`
-  Range.openClosed(this.lower, this.upper)
-      : lowerClosed = false,
+  Range.openClosed(this.lower, T u)
+      : upper = u,
+        lowerClosed = false,
         upperClosed = true {
-    if (upper == null) throw ArgumentError('upper cannot be null');
     _checkBoundOrder();
   }
 
   /// `[`[lower]`..`[upper]`)`
-  Range.closedOpen(this.lower, this.upper)
-      : lowerClosed = true,
+  Range.closedOpen(T l, this.upper)
+      : lower = l,
+        lowerClosed = true,
         upperClosed = false {
-    if (lower == null) throw ArgumentError('lower cannot be null');
     _checkBoundOrder();
   }
 
@@ -53,18 +53,14 @@ class Range<T extends Comparable<T>> {
       : upper = null,
         lower = l,
         lowerClosed = true,
-        upperClosed = false {
-    if (lower == null) throw ArgumentError('lower cannot be null');
-  }
+        upperClosed = false;
 
   /// `( -∞ ..`[upper]`]`
   Range.atMost(T u)
       : lower = null,
         upper = u,
         lowerClosed = false,
-        upperClosed = true {
-    if (upper == null) throw ArgumentError('upper cannot be null');
-  }
+        upperClosed = true;
 
   /// `(`[lower]`.. +∞ )`
   Range.greaterThan(this.lower)
@@ -205,7 +201,7 @@ class Range<T extends Comparable<T>> {
 
   /// Returns an interval which contains the same values as `this`, except any
   /// open bounds become closed.
-  Range<T> get closure => isClosed ? this : Range<T>.closed(lower, upper);
+  Range<T> get closure => isClosed ? this : Range<T>.closed(lower!, upper!);
 
   int _checkBoundOrder() {
     if (lower == null || upper == null) return -1;
