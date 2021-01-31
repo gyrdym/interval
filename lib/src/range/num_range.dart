@@ -33,32 +33,28 @@ class NumRange extends Range<num> {
   NumRange.singleton(num value) : super.singleton(value);
 
   int? get firstValue {
-    final l = lower;
-    if (l == null) {
+    if (lower == null) {
       return null;
     }
-    return (lowerClosed ? l : l + 1).toInt();
+    return (lowerClosed ? lower! : lower! + 1).toInt();
   }
 
   int? get lastValue {
-    final u = upper;
-    if (u == null) {
+    if (upper == null) {
       return null;
     }
-    return (upperClosed ? u : u - 1).toInt();
+    return (upperClosed ? upper! : upper! - 1).toInt();
   }
 
   Iterable<num> values({int step = 1}) sync* {
     if (step <= 0) {
       throw ArgumentError.value(step, 'A step should be greater than 0');
     }
-    final f = firstValue;
-    final l = lastValue;
-    if (!bounded || l == null || f == null) {
+    if (!bounded || lastValue == null || firstValue == null) {
       throw Exception('There is no bound, '
           '${lower == null ? '`lower`' : '`upper`'} is not defined');
     }
-    for (var val = f; val <= l; val += step) {
+    for (var val = firstValue!; val <= lastValue!; val += step) {
       yield val;
     }
   }
