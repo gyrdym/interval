@@ -241,10 +241,7 @@ class Range<T extends Comparable<T>> {
       if (!other.lowerBounded) {
         return false;
       } else {
-        if (lower == null) {
-          return false;
-        }
-        if (other.lower == null) {
+        if (lower == null || other.lower == null) {
           return false;
         }
         final lowerCompare = Comparable.compare(lower!, other.lower!);
@@ -258,10 +255,7 @@ class Range<T extends Comparable<T>> {
       if (!other.upperBounded) {
         return false;
       } else {
-        if (upper == null) {
-          return false;
-        }
-        if (other.upper == null) {
+        if (upper == null || other.upper == null) {
           return false;
         }
         final upperCompare = Comparable.compare(upper!, other.upper!);
