@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.0-nullsafety.0
+## 2.0.0-nullsafety.0
 - null safety
 
 ## 1.0.0
