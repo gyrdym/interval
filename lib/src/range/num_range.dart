@@ -50,9 +50,12 @@ class NumRange extends Range<num> {
     if (step <= 0) {
       throw ArgumentError.value(step, 'A step should be greater than 0');
     }
-    if (!bounded || lastValue == null || firstValue == null) {
-      throw Exception('There is no bound, '
-          '${lower == null ? '`lower`' : '`upper`'} is not defined');
+    if (lastValue == null || firstValue == null) {
+      final message = [
+        if (lower == null) 'lower bound is undefined',
+        if (upper == null) 'upper bound is undefined',
+      ].join(',');
+      throw Exception('The range is unbound: $message');
     }
     for (var val = firstValue!; val <= lastValue!; val += step) {
       yield val;
