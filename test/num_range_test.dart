@@ -74,6 +74,12 @@ void main() {
       expect(range.firstValue, isNull);
     });
 
+    test('should return `0` if the singleton is 0', () {
+      final range = NumRange.singleton(0);
+      expect(range.firstValue, 0);
+      expect(range.lastValue, 0);
+    });
+
     test('should return a finite number if the range is open', () {
       final range = NumRange.open(-20, 30);
       expect(range.firstValue, -19);

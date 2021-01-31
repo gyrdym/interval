@@ -1,9 +1,16 @@
 import 'package:xrange/src/range/range.dart';
 
 class NumRange extends Range<num> {
-  NumRange({num lower, num upper, bool lowerClosed, bool upperClosed}) :
-        super(lower: lower, upper: upper, lowerClosed: lowerClosed,
-          upperClosed: upperClosed);
+  NumRange(
+      {required num lower,
+      required num upper,
+      bool lowerClosed = false,
+      bool upperClosed = false})
+      : super(
+            lower: lower,
+            upper: upper,
+            lowerClosed: lowerClosed,
+            upperClosed: upperClosed);
 
   NumRange.open(num lower, num upper) : super.open(lower, upper);
 
@@ -25,29 +32,32 @@ class NumRange extends Range<num> {
 
   NumRange.singleton(num value) : super.singleton(value);
 
-  int get firstValue {
+  int? get firstValue {
     if (lower == null) {
       return null;
     }
-    return (lowerClosed ? lower : lower + 1).toInt();
+    return (lowerClosed ? lower! : lower! + 1).toInt();
   }
 
-  int get lastValue {
+  int? get lastValue {
     if (upper == null) {
       return null;
     }
-    return (upperClosed ? upper : upper - 1).toInt();
+    return (upperClosed ? upper! : upper! - 1).toInt();
   }
 
   Iterable<num> values({int step = 1}) sync* {
     if (step <= 0) {
       throw ArgumentError.value(step, 'A step should be greater than 0');
     }
-    if (!bounded) {
-      throw Exception('There is no bound, '
-          '${lower == null ? '`lower`' : '`upper`'} is not defined');
+    if (lastValue == null || firstValue == null) {
+      final message = [
+        if (lower == null) 'lower bound is undefined',
+        if (upper == null) 'upper bound is undefined',
+      ].join(',');
+      throw Exception('The range is unbound: $message');
     }
-    for (var val = firstValue; val <= lastValue; val += step) {
+    for (var val = firstValue!; val <= lastValue!; val += step) {
       yield val;
     }
   }
