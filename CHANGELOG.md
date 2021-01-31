@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.0-nullsafety.0
+- null safety
+
 ## 1.0.0
 - `injector` dependency removed
 - `lib/integers.dart`, `lib/range.dart` export files removed

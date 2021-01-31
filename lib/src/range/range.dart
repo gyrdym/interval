@@ -6,9 +6,13 @@
 class Range<T extends Comparable<T>> {
   /// An interval constructed from its [Bound]s.
   ///
-  /// If [lowerBound] or [upperBound] are `null`, then the interval is unbounded
+  /// If [lowerBound] or [upperBound] are `false`, then the interval is unbounded
   /// in that direction.
-  Range({this.lower, this.upper, this.lowerClosed, this.upperClosed}) {
+  Range(
+      {this.lower,
+      this.upper,
+      this.lowerClosed = false,
+      this.upperClosed = false}) {
     _checkNotOpenAndEqual(_checkBoundOrder());
   }
 
@@ -45,16 +49,18 @@ class Range<T extends Comparable<T>> {
   }
 
   /// `[`[lower]`.. +∞ )`
-  Range.atLeast(this.lower)
+  Range.atLeast(T l)
       : upper = null,
+        lower = l,
         lowerClosed = true,
         upperClosed = false {
     if (lower == null) throw ArgumentError('lower cannot be null');
   }
 
   /// `( -∞ ..`[upper]`]`
-  Range.atMost(this.upper)
+  Range.atMost(T u)
       : lower = null,
+        upper = u,
         lowerClosed = false,
         upperClosed = true {
     if (upper == null) throw ArgumentError('upper cannot be null');
@@ -84,9 +90,7 @@ class Range<T extends Comparable<T>> {
       : lower = value,
         upper = value,
         lowerClosed = true,
-        upperClosed = true {
-    if (value == null) throw ArgumentError('value cannot be null');
-  }
+        upperClosed = true;
 
   /// The minimal interval which [contains] each value in [values].
   ///
@@ -121,23 +125,25 @@ class Range<T extends Comparable<T>> {
     var upperClosed = interval.upperClosed;
     while (iterator.moveNext()) {
       interval = iterator.current;
-      if (interval.lower == null) {
+      final l = interval.lower;
+      if (l == null) {
         lower = null;
         lowerClosed = false;
         if (upper == null) break;
       } else {
-        if (lower != null && Comparable.compare(lower, interval.lower) >= 0) {
-          lower = interval.lower;
+        if (lower != null && Comparable.compare(lower, l) >= 0) {
+          lower = l;
           lowerClosed = lowerClosed || interval.lowerClosed;
         }
       }
-      if (interval.upper == null) {
+      final u = interval.upper;
+      if (u == null) {
         upper = null;
         upperClosed = false;
         if (lower == null) break;
       } else {
-        if (upper != null && Comparable.compare(upper, interval.upper) <= 0) {
-          upper = interval.upper;
+        if (upper != null && Comparable.compare(upper, u) <= 0) {
+          upper = u;
           upperClosed = upperClosed || interval.upperClosed;
         }
       }
@@ -150,10 +156,10 @@ class Range<T extends Comparable<T>> {
   }
 
   /// The lower bound value if it exists, or null.
-  final T lower;
+  final T? lower;
 
   /// The upper bound value if it exists, or null.
-  final T upper;
+  final T? upper;
 
   /// Whether `this` contains [lower].  [lower] may also be contained
   /// if [upperClosed] and [lower] equals [upper].
@@ -185,13 +191,17 @@ class Range<T extends Comparable<T>> {
   bool get upperBounded => upper != null;
 
   /// Whether `this` [contains] any values.
-  bool get isEmpty  => _boundValuesEqual && !isClosed;
+  bool get isEmpty => _boundValuesEqual && !isClosed;
 
   /// Whether `this` [contains] exactly one value.
   bool get isSingleton => _boundValuesEqual && isClosed;
 
-  bool get _boundValuesEqual =>
-      bounded && Comparable.compare(lower, upper) == 0;
+  bool get _boundValuesEqual {
+    final l = lower;
+    final u = upper;
+    if (l == null || u == null) return false;
+    return bounded && Comparable.compare(l, u) == 0;
+  }
 
   /// Returns an interval which contains the same values as `this`, except any
   /// closed bounds become open.
@@ -202,8 +212,10 @@ class Range<T extends Comparable<T>> {
   Range<T> get closure => isClosed ? this : Range<T>.closed(lower, upper);
 
   int _checkBoundOrder() {
-    if (lower == null || upper == null) return -1;
-    final compare = Comparable.compare(lower, upper);
+    final l = lower;
+    final u = upper;
+    if (l == null || u == null) return -1;
+    final compare = Comparable.compare(l, u);
     if (compare > 0) {
       throw ArgumentError('upper must not be less than lower');
     }
@@ -218,12 +230,14 @@ class Range<T extends Comparable<T>> {
 
   /// Whether `this` contains [test].
   bool contains(T test) {
-    if (lower != null) {
-      final lowerCompare = Comparable.compare(lower, test);
+    final l = lower;
+    if (l != null) {
+      final lowerCompare = Comparable.compare(l, test);
       if (lowerCompare > 0 || (!lowerClosed && lowerCompare == 0)) return false;
     }
-    if (upper != null) {
-      final upperCompare = Comparable.compare(upper, test);
+    final u = upper;
+    if (u != null) {
+      final upperCompare = Comparable.compare(u, test);
       if (upperCompare < 0 || (!upperClosed && upperCompare == 0)) return false;
     }
     return true;
@@ -235,9 +249,17 @@ class Range<T extends Comparable<T>> {
       if (!other.lowerBounded) {
         return false;
       } else {
-        final lowerCompare = Comparable.compare(lower, other.lower);
-        if (lowerCompare > 0 || (lowerCompare == 0 && !lowerClosed &&
-            other.lowerClosed)) {
+        final l = lower;
+        if (l == null) {
+          return false;
+        }
+        final ol = other.lower;
+        if (ol == null) {
+          return false;
+        }
+        final lowerCompare = Comparable.compare(l, ol);
+        if (lowerCompare > 0 ||
+            (lowerCompare == 0 && !lowerClosed && other.lowerClosed)) {
           return false;
         }
       }
@@ -246,9 +268,17 @@ class Range<T extends Comparable<T>> {
       if (!other.upperBounded) {
         return false;
       } else {
-        final upperCompare = Comparable.compare(upper, other.upper);
-        if (upperCompare < 0 || (upperCompare == 0 && !upperClosed &&
-            other.upperClosed)) {
+        final u = upper;
+        if (u == null) {
+          return false;
+        }
+        final ou = other.upper;
+        if (ou == null) {
+          return false;
+        }
+        final upperCompare = Comparable.compare(u, ou);
+        if (upperCompare < 0 ||
+            (upperCompare == 0 && !upperClosed && other.upperClosed)) {
           return false;
         }
       }
@@ -260,20 +290,26 @@ class Range<T extends Comparable<T>> {
   /// [Range]).
   bool connectedTo(Range<T> other) {
     bool overlapping(Range<T> lower, Range<T> upper) {
-      if (lower.lower == null || upper.upper == null) return true;
-      final comparison = lower.lower.compareTo(upper.upper);
+      final l = lower.lower;
+      final u = upper.upper;
+      if (l == null || u == null) return true;
+      final comparison = l.compareTo(u);
       return comparison < 0 ||
           (comparison == 0 && (lower.lowerClosed || upper.upperClosed));
     }
+
     return overlapping(this, other) && overlapping(other, this);
   }
 
   @override
-  int get hashCode => lower.hashCode ^ upper.hashCode ^ lowerClosed.hashCode ^
+  int get hashCode =>
+      lower.hashCode ^
+      upper.hashCode ^
+      lowerClosed.hashCode ^
       upperClosed.hashCode;
 
   @override
-  bool operator == (Object other) =>
+  bool operator ==(Object other) =>
       other is Range<T> &&
       lower == other.lower &&
       upper == other.upper &&
@@ -286,5 +322,4 @@ class Range<T extends Comparable<T>> {
     final close = '${upper ?? '+∞'}${upperClosed ? ']' : ')'}';
     return '$open..$close';
   }
-
 }
